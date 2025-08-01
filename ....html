@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi amor</title>
+    <!-- Incluye el CDN de Tailwind CSS para un estilo moderno y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff69b4; /* Color de confeti por defecto (rosa) */
+            animation: fall linear forwards;
+            opacity: 0;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(540deg);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-200 to-purple-300 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Contenedor principal de la tarjeta -->
+    <main class="bg-white rounded-3xl shadow-2xl p-8 max-w-xl w-full text-center transform transition-all duration-500 hover:scale-105">
+
+        <!-- Título principal -->
+        <h1 class="text-4xl md:text-5xl font-extrabold text-pink-500 mb-4 animate-pulse">¡Hola, mi amor!</h1>
+
+        <!-- Mensaje introductorio -->
+        <p class="text-gray-600 text-lg md:text-xl mb-6">
+            Tengo un mensaje para ti. Haz clic en el botón de abajo para revelarlo. ❤️
+        </p>
+
+        <!-- Botón interactivo -->
+        <button id="revealButton" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-pink-300">
+            Haz clic para una sorpresa
+        </button>
+
+        <!-- Contenedor del mensaje secreto (inicialmente oculto) -->
+        <div id="messageBox" class="mt-8 p-6 bg-pink-50 rounded-2xl border-2 border-pink-200 shadow-inner hidden">
+            <h2 class="text-2xl md:text-3xl font-bold text-pink-600 mb-4">¡Feliz día, mi vida!</h2>
+            <p class="text-gray-800 text-lg leading-relaxed">
+                Eres la persona más increíble que he conocido. Cada momento contigo es un regalo y mi vida es mucho mejor porque estás en ella. Gracias por ser tú. ¡Te quiero mucho!
+            </p>
+        </div>
+    </main>
+
+    <!-- Contenedor para el confeti -->
+    <div id="confetti-container" class="confetti-container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('revealButton');
+            const messageBox = document.getElementById('messageBox');
+            const confettiContainer = document.getElementById('confetti-container');
+
+            // Función para crear y animar el confeti
+            const createConfetti = () => {
+                // Colores del confeti
+                const colors = ['#ff69b4', '#8a2be2', '#00ff7f', '#ffd700', '#1e90ff'];
+                const numConfetti = 50;
+
+                for (let i = 0; i < numConfetti; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    
+                    // Posición inicial aleatoria
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    confettiContainer.appendChild(confetti);
+                }
+
+                // Eliminar el confeti después de que termine la animación
+                setTimeout(() => {
+                    confettiContainer.innerHTML = '';
+                }, 5000);
+            };
+
+            // Evento de clic para el botón
+            button.addEventListener('click', () => {
+                // Muestra la caja de mensaje
+                messageBox.classList.remove('hidden');
+                messageBox.classList.add('flex', 'flex-col');
+                
+                // Oculta el botón después del clic
+                button.classList.add('hidden');
+
+                // Crea el efecto de confeti
+                createConfetti();
+            });
+        });
+    </script>
+</body>
+</html>
